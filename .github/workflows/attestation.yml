@@ -2,6 +2,11 @@ name: Generate Attestation
 
 on: [push]
 
+permissions:
+  id-token: write
+  contents: read
+  attestations: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -13,7 +18,7 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v3
       with:
-        go-version: '1.16'
+        go-version: '1.23'
 
     - name: Build
       run: go build -o myapp
@@ -24,4 +29,4 @@ jobs:
     - name: Generate attestation
       uses: actions/attest-build-provenance@v1
       with:
-        attestation: build-attestation.json
+        subject-path: myapp
